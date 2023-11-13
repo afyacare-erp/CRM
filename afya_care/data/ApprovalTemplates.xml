@@ -18,11 +18,11 @@
             <field name="name">Transfer Approval</field>
             <field name="model_id" ref="stock.model_stock_picking" />
             <field name="subject">Transfer Approval or Rejected Notification</field>
-            <field name="email_to">{{object.partner_id.email }}</field>
+            <field name="email_to">{{object.user_id.partner_id.email }}</field>
             <field name="body_html" type="html">
                 <div>
                     <div>
-                        <p> Dear Ma'am/Sir,<br /> Transfer approval request has been <t t-out="object.approval_status"></t> by <t t-out="object.approved_by.name"></t>. </p>
+                        <p> Dear Ma'am/Sir,<br /> Transfer approval request for <t t-out="object.name"></t> has been <t t-out="object.approval_status"></t> by <t t-out="object.approved_by.name"></t>. </p>
                     </div>
                 </div>
             </field>
