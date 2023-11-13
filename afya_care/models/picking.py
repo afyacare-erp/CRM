@@ -41,7 +41,7 @@ class StockPicking(models.Model):
                 rec.approved_by = rec.user_id.partner_id.supervisor
                 mail_template = rec.env.ref('afya_care.afyacare_transfer_approval_template')
                 if mail_template:
-                    mail_template.write({'email_to': rec.approved_by.partner_id.email})
+                    mail_template.sudo().write({'email_to': rec.approved_by.partner_id.email})
                     mail_template.send_mail(self.id,force_send = True)
                     rec.message_post(
                         body=f"Approval request has been sent to {rec.approved_by.name}."
@@ -58,7 +58,7 @@ class StockPicking(models.Model):
             rec.approved_time = datetime.now()
             mail_template = rec.env.ref('afya_care.afyacare_transfer_approve_reject_template')
             if mail_template:
-                mail_template.write({'email_to': rec.user_id.partner_id.email})
+                mail_template.sudo().write({'email_to': rec.user_id.partner_id.email})
                 mail_template.send_mail(self.id,force_send = True)
                 
 
