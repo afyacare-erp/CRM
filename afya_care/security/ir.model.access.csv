@@ -1,2 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_afya_care_afya_care,afya_care.afya_care,model_afya_care_afya_care,base.group_user,1,1,1,1
+access_afyacare_location,afyacare.location,model_afyacare_location,base.group_user,1,1,1,1
+access_afyacare_asset_tag,afyacare.asset.tag,model_afyacare_asset_tag,base.group_user,1,1,1,1
+access_afyacare_asset_condition,afyacare.asset.condition,model_afyacare_asset_condition,base.group_user,1,1,1,1
+access_afyacare_asset_user,afyacare.asset.user,model_afyacare_asset_user,base.group_user,1,1,1,1
+access_afyacare_serial_number,afyacare.serial.number,model_afyacare_serial_number,base.group_user,1,1,1,1

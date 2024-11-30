@@ -1,0 +1,36 @@
+<odoo>
+    <record id="view_afyacare_asset_tag_tree" model="ir.ui.view">
+        <field name="name">afyacare.asset.tag.tree</field>
+        <field name="model">afyacare.asset.tag</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_afyacare_asset_tag_form" model="ir.ui.view">
+        <field name="name">afyacare.asset.tag.form</field>
+        <field name="model">afyacare.asset.tag</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+<!--                        <field name="active"/>-->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_afyacare_asset_tag" model="ir.actions.act_window">
+        <field name="name">Asset Tag</field>
+        <field name="res_model">afyacare.asset.tag</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_afyacare_asset_tag_tree"/>
+    </record>
+
+    <menuitem id="menu_afyacare_asset_tag" name="Asset Tag" parent="menu_asset_register" sequence="3" action="action_afyacare_asset_tag" />
+</odoo>
