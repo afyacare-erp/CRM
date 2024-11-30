@@ -20,14 +20,20 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','stock','contacts','account'],
+    'depends': ['base','stock','contacts','account','account_asset'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/stock_picking.xml',
         'views/res_partner.xml',
         'views/account_move.xml',
+        'views/location.xml',
+        'views/asset_user.xml',
+        'views/asset_tag.xml',
+        'views/asset_condition.xml',
+        'views/serial_number.xml',
+        'views/account_asset_view.xml',
         'data/ApprovalTemplates.xml'
     ],
     # only loaded in demonstration mode
