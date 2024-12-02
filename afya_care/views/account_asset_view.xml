@@ -4,15 +4,23 @@
         <field name="model">account.asset</field>
         <field name="inherit_id" ref="account_asset.view_account_asset_form"/>
         <field name="arch" type="xml">
-            <field name="already_depreciated_amount_import" position="after">
-                <field name="location_id"/>
-                <field name="asset_tag_id"/>
-                <field name="asset_condition_id"/>
-                <field name="asset_user_id"/>
-                <field name="serial_number_id"/>
-                <field name="afy_salvage_value"/>
-                <field name="afy_remaining_active_life"/>
-            </field>
+            <xpath expr="//notebook" position="inside">
+                <page string="Other Info" name="other_info">
+                    <group>
+                        <group>
+                            <field name="location_id"/>
+                            <field name="asset_tag_id"/>
+                            <field name="asset_condition_id"/>
+                            <field name="asset_user_id"/>
+                        </group>
+                        <group>
+                            <field name="serial_number_id"/>
+                            <field name="afy_salvage_value"/>
+                            <field name="afy_remaining_active_life"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
         </field>
     </record>
 
