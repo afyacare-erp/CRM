@@ -7,6 +7,7 @@ class Location(models.Model):
     _rec_name = 'name'
 
     name = fields.Char(string="Location Name", required=True)
+    location_no = fields.Char(string="Location No", required=True)
     active = fields.Boolean(string="Active", default=True)
 
 
