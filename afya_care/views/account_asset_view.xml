@@ -7,6 +7,7 @@
             <field name="prorata_date" position="after">
                 <field name="depreciation_end_date" readonly="1"
                        attrs="{'invisible': [('prorata_computation_type', '=', 'none')]}"/>
+                <field name="afy_monthly_depreciation_value" readonly="1"/>
             </field>
             <xpath expr="//notebook" position="inside">
                 <page string="Other Info" name="other_info">
