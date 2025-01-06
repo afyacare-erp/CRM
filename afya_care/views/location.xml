@@ -1,0 +1,47 @@
+<odoo>
+    <record id="view_afyacare_location_tree" model="ir.ui.view">
+        <field name="name">afyacare.location.tree</field>
+        <field name="model">afyacare.location</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="location_no"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_afyacare_location_form" model="ir.ui.view">
+        <field name="name">afyacare.location.form</field>
+        <field name="model">afyacare.location</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="location_no"/>
+<!--                        <field name="active"/>-->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_afyacare_location" model="ir.actions.act_window">
+        <field name="name">Locations</field>
+        <field name="res_model">afyacare.location</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_afyacare_location_tree"/>
+    </record>
+
+    <menuitem id="menu_asset_register" parent="account.menu_finance_entries" name="Asset Register" sequence="10" />
+
+    <menuitem id="menu_afyacare_location" name="Location" parent="menu_asset_register" sequence="1" action="action_afyacare_location" />
+
+    <!-- Submenus -->
+<!--    <menuitem id="menu_asset_location" name="Location" parent="menu_asset_register" sequence="1" action="action_asset_location" />-->
+<!--    <menuitem id="menu_asset_tag" name="Asset Tag" parent="menu_asset_register" sequence="2" action="action_asset_tag" />-->
+<!--    <menuitem id="menu_asset_condition" name="Asset Condition" parent="menu_asset_register" sequence="3" action="action_asset_condition" />-->
+<!--    <menuitem id="menu_asset_user" name="Asset User" parent="menu_asset_register" sequence="4" action="action_asset_user" />-->
+
+</odoo>
