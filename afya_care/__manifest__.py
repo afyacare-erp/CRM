@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','stock','contacts','account','account_asset'],
+    'depends': ['base','stock','contacts','account','account_asset','account_reports'],
 
     # always loaded
     'data': [
@@ -34,7 +34,8 @@
         'views/asset_condition.xml',
         'views/serial_number.xml',
         'views/account_asset_view.xml',
-        'data/ApprovalTemplates.xml'
+        'data/ApprovalTemplates.xml',
+        'wizard/asset_register.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
