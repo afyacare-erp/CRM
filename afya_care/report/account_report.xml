@@ -1,0 +1,77 @@
+<odoo>
+    <template id="report_asset_register">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Asset Register Report</h2>
+                    <div class="row mt32 mb32">
+                        <div class="col-3">
+                            <strong>From:</strong> <span t-esc="date_from" t-options="{'widget': 'date'}"/>
+                        </div>
+                        <div class="col-3">
+                            <strong>To:</strong> <span t-esc="date_to" t-options="{'widget': 'date'}"/>
+                        </div>
+                        <div class="col-3">
+                            <strong>Company:</strong> <span t-esc="company.name"/>
+                        </div>
+                    </div>
+                    
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Original Cost</th>
+                                <th>Accumulated Depreciation</th>
+                                <th>Current Depreciation</th>
+                                <th>Closing NBV</th>
+                                <th>Status</th>
+                                <th>Disposal Value</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Total Months</th>
+                                <th>Location</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="asset_lines" t-as="line">
+                                <td><span t-esc="line['name']"/></td>
+                                <td><span t-esc="line['original_cost']" t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/></td>
+                                <td><span t-esc="line['accum_depreciation']" t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/></td>
+                                <td><span t-esc="line['current_depreciation']" t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/></td>
+                                <td><span t-esc="line['closing_nbv']" t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/></td>
+                                <td><span t-esc="line['asset_status']"/></td>
+                                <td><span t-esc="line['disposal_value']" t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/></td>
+                                <td><span t-esc="line['depr_start_date']" t-options="{'widget': 'date'}"/></td>
+                                <td><span t-esc="line['depr_end_date']" t-options="{'widget': 'date'}"/></td>
+                                <td><span t-esc="line['total_months']"/></td>
+                                <td><span t-esc="line['location']"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- <record id="action_report_asset_register" model="ir.actions.report">
+        <field name="name">Asset Register</field>
+        <field name="model">report.account.asset.register</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_asset_register.report_asset_register_template</field>
+        <field name="binding_model_id" ref="account.model_account_asset"/>
+        <field name="binding_type">report</field>
+    </record> -->
+
+    <!-- <record id="action_report_asset_register" model="ir.actions.client">
+        <field name="name">Asset Register Report</field>
+        <field name="tag">account_report</field> 
+        <field name="context" eval="{'report_id': ref('afya_care.report_asset_register_template')}"/>
+    </record> -->
+  
+
+    <menuitem 
+    id="menu_asset_register_report" 
+    name="Asset Register" 
+    parent="account_reports.account_reports_partners_reports_menu" 
+    action="action_asset_register_wizard"/> 
+</odoo>

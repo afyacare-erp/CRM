@@ -19,6 +19,24 @@ class AccountAsset(models.Model):
         help="The date on which the asset's depreciation will end.",
     )
     afy_monthly_depreciation_value = fields.Float(string="Monthly Depreciation Value")
+    afy_disposal_date = fields.Date(string="Disposal Date", traking=True)
+    afy_disposal_value = fields.Float(string="Disposal Value", traking=True)
+
+    def write(self, vals):
+        res = super(AccountAsset, self).write(vals)
+
+        for asset in self:
+            if 'afy_disposal_value' in vals and vals['afy_disposal_value']:
+                today = fields.Date.today()
+                if not asset.afy_disposal_date:
+                    asset.afy_disposal_date = today
+
+                future_lines = asset.depreciation_move_ids.filtered(
+                    lambda l: l.date > today
+                )
+                future_lines.write({'state': 'cancel'})
+
+        return res
 
     @api.depends('method_number', 'prorata_date', 'method_period')
     def _compute_depreciation_end_date(self):

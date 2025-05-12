@@ -4,3 +4,4 @@ access_afyacare_asset_tag,afyacare.asset.tag,model_afyacare_asset_tag,base.group
 access_afyacare_asset_condition,afyacare.asset.condition,model_afyacare_asset_condition,base.group_user,1,1,1,1
 access_afyacare_asset_user,afyacare.asset.user,model_afyacare_asset_user,base.group_user,1,1,1,1
 access_afyacare_serial_number,afyacare.serial.number,model_afyacare_serial_number,base.group_user,1,1,1,1
+access_report_account_asset_register,report.account.asset.register,model_report_account_asset_register,base.group_user,1,1,1,1
