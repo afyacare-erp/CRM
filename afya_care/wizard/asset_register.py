@@ -2,6 +2,7 @@ from odoo import models, fields
 from io import BytesIO
 import xlsxwriter
 from datetime import date
+import base64
 
 class AssetRegisterReport(models.TransientModel):
     _name = 'report.account.asset.register'
@@ -68,14 +69,14 @@ class AssetRegisterReport(models.TransientModel):
         workbook.close()
         output.seek(0)
 
-        # attachment = self.env['ir.attachment'].create({
-        #     'name': 'Asset Register Report.xlsx',
-        #     'type': 'binary',
-        #     'datas': base64.b64encode(output.read()),
-        #     'res_model': self._name,
-        #     'res_id': self.id,
-        #     'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        # })
+        attachment = self.env['ir.attachment'].create({
+            'name': 'Asset Register Report.xlsx',
+            'type': 'binary',
+            'datas': base64.b64encode(output.read()),
+            'res_model': self._name,
+            'res_id': self.id,
+            'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        })
 
         return {
             'type': 'ir.actions.act_url',
