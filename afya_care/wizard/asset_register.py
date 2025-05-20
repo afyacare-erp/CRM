@@ -3,6 +3,7 @@ from io import BytesIO
 import xlsxwriter
 from datetime import date
 import base64
+from calendar import monthrange
 
 class AssetRegisterReport(models.TransientModel):
     _name = 'report.account.asset.register'
@@ -34,7 +35,18 @@ class AssetRegisterReport(models.TransientModel):
 
         prev_year = self.date_to.year - 1
         prev_year_end = date(prev_year, 12, 31)
-        curr_year_end = date(self.date_to.year, 12, 31)
+        
+        last_day_of_month = monthrange(self.date_to.year, self.date_to.month)[1]
+        is_last_date_of_month = self.date_to.day == last_day_of_month
+
+        if is_last_date_of_month:
+            curr_year_end = self.date_to
+        else:
+            prev_month = self.date_to.month - 1
+            if prev_month == 0:
+                prev_month = 1
+            last_day = monthrange(self.date_to.year, prev_month)[1]
+            curr_year_end = date(self.date_to.year, prev_month, last_day)
 
         for row, asset in enumerate(assets, start=1):
             asset_acc = asset.original_move_line_ids[:1].account_id.name if asset.original_move_line_ids else ''
