@@ -19,8 +19,8 @@ class AssetRegisterReport(models.TransientModel):
         ])
 
         headers = [
-            'Asset Original Cost Account', 'Depreciation Expense Account', 'Accum Depreciation Account',
-            'Label', 'Reporting Date', 'Original cost', 'Accum Depreciation as at end of last financial year',
+            'Reporting Date','Asset Original Cost Account', 'Depreciation Expense Account', 'Accum Depreciation Account',
+            'Label', 'Original cost', 'Accum Depreciation as at end of last financial year',
             'Current depreciation', 'Closing NBV', 'Status', 'Disposal value', 'Dep Start',
             'Dep End', 'Total Months', 'Location'
         ]
@@ -53,16 +53,20 @@ class AssetRegisterReport(models.TransientModel):
             depr_lines = asset.depreciation_move_ids.filtered(lambda d: d.date)
             depr_prev_year = sum(depr_lines.filtered(lambda d: d.date == prev_year_end).mapped('asset_depreciated_value'))
             closing_nbv = sum(depr_lines.filtered(lambda d: d.date == curr_year_end).mapped('asset_depreciated_value'))
+            
+            # Calculate current depreciation and ensure it's not negative
             current_depr = closing_nbv - depr_prev_year
-            closing_nbv = sum(depr_lines.filtered(lambda d: d.date == curr_year_end).mapped('asset_depreciated_value'))
+            if current_depr < 0:
+                current_depr = 0.0
+            
             total_months = asset.method_number * (12 if asset.method_period == 'year' else 1)
 
             values = [
+                self.date_to.strftime('%d/%m/%Y'),  # Reporting Date
                 asset_acc,
                 asset.account_depreciation_expense_id.code,
                 asset.account_depreciation_id.code,
                 asset.name,
-                asset.acquisition_date.strftime('%d/%m/%Y') if asset.acquisition_date else '',
                 asset.original_value,
                 depr_prev_year,
                 current_depr,
@@ -76,13 +80,13 @@ class AssetRegisterReport(models.TransientModel):
             ]
 
             for col, val in enumerate(values):
-                sheet.write(row, col, val or '')
+                sheet.write(row, col, val if val is not None else '')
 
         workbook.close()
         output.seek(0)
 
         attachment = self.env['ir.attachment'].create({
-            'name': 'Asset Register Report.xlsx',
+            'name': f'Asset Register Report - {self.date_to.strftime("%d-%m-%Y")}.xlsx',
             'type': 'binary',
             'datas': base64.b64encode(output.read()),
             'res_model': self._name,
