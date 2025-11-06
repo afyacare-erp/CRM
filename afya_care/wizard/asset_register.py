@@ -20,7 +20,7 @@ class AssetRegisterReport(models.TransientModel):
 
         headers = [
             'Reporting Date','Asset Original Cost Account', 'Depreciation Expense Account', 'Accum Depreciation Account',
-            'Label', 'Original cost', 'Accum Depreciation as at end of last financial year',
+            'Label', 'Original cost', 'Already Depreciated Amount', 'Accum Depreciation as at end of last financial year',
             'Current depreciation', 'Closing NBV', 'Status', 'Disposal value', 'Dep Start',
             'Dep End', 'Total Months', 'Location'
         ]
@@ -52,12 +52,11 @@ class AssetRegisterReport(models.TransientModel):
             asset_acc = asset.original_move_line_ids[:1].account_id.name if asset.original_move_line_ids else ''
             depr_lines = asset.depreciation_move_ids.filtered(lambda d: d.date)
             depr_prev_year = sum(depr_lines.filtered(lambda d: d.date == prev_year_end).mapped('asset_depreciated_value'))
-            closing_nbv = sum(depr_lines.filtered(lambda d: d.date == curr_year_end).mapped('asset_depreciated_value'))
-            
-            # Calculate current depreciation and ensure it's not negative
-            current_depr = closing_nbv - depr_prev_year
+            depr_current_year = sum(depr_lines.filtered(lambda d: d.date == curr_year_end).mapped('asset_depreciated_value'))
+            current_depr = depr_current_year - depr_prev_year
             if current_depr < 0:
                 current_depr = 0.0
+            closing_nbv = asset.original_value - (depr_current_year + (asset.already_depreciated_amount_import or 0.0))
             
             total_months = asset.method_number * (12 if asset.method_period == 'year' else 1)
 
@@ -68,6 +67,7 @@ class AssetRegisterReport(models.TransientModel):
                 asset.account_depreciation_id.code,
                 asset.name,
                 asset.original_value,
+                asset.already_depreciated_amount_import or 0.0,
                 depr_prev_year,
                 current_depr,
                 closing_nbv,
