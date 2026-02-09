@@ -9,6 +9,10 @@
                        attrs="{'invisible': [('prorata_computation_type', '=', 'none')]}"/>
                 <field name="afy_monthly_depreciation_value" readonly="1"/>
             </field>
+            <xpath expr="//field[@name='salvage_value']" position="before">
+                <field name="afy_disposal_date" />
+                <field name="afy_disposal_value" />
+            </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Other Info" name="other_info">
                     <group>
@@ -45,4 +49,6 @@
             </tree>
         </field>
     </record>
+
+    
 </odoo>
